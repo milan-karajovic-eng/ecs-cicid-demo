@@ -1,0 +1,38 @@
+name: Build image and deploy to ECS
+on:
+  push: 
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  NODE_IMAGE_NAME: ecs-cicid-demo
+
+jobs:
+  build-image-node:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Added details to image
+        id: meta
+        uses: docker/meta-action@v5
+        with:
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: ${{ vars.DOCKER_USERNAME }}/${{env.NODE_IMAGE_NAME}}
+          tags: |
+            latest 
+            v1.0.${{github.run_number}}
+      - name: Build and push Docker image
+        id: push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./AP-jokes
+          file: ./AP-jokes/Dockerfile.prod
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
