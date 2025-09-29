@@ -100,7 +100,7 @@ jobs:
           image: ${{ vars.DOCKER_USERNAME }}/${{ env.NODE_IMAGE_NAME }}
 
       - name: Modify Amazon ECS task definition with second container for react
-        id: task-react
+        id: taskdef-react
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
