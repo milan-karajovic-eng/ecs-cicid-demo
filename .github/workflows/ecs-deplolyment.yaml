@@ -10,7 +10,7 @@ env:
   REACT_IMAGE_NAME: ecs-demo-client
   AWS_REGION: eu-central-1
   ECS_CLUSTER: ECSdemocluster
-  ECS_SERVICE: ECSdemoservice
+  ECS_SERVICE: ECSdemotd-service-6snuqton
   ECS_TASK_DEFINITION: ECSdemotd
   NODE_CONTAINER_NAME: nodeappcontainer
   REACT_CONTAINER_NAME: reactappcontainer
