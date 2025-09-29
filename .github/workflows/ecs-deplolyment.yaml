@@ -23,7 +23,7 @@ jobs:
 
       - name: Added details to image
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v4
         with:
           images: ${{ vars.DOCKER_USERNAME }}/${{env.NODE_IMAGE_NAME}}
           tags: |
