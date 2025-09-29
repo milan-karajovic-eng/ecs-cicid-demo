@@ -103,13 +103,13 @@ jobs:
         id: task-react
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.render-web-container.outputs.task-definition }}
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
           container-name: ${{ env.REACT_CONTAINER_NAME }}
           image: ${{ vars.DOCKER_USERNAME }}/${{ env.REACT_IMAGE_NAME }}
 
       - name: Deploy to Amazon ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
-          task-definition: ${{ steps.task-definition-react.outputs.task-definition }}
+          task-definition: ${{ steps.taskdef-react.outputs.task-definition }}
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
