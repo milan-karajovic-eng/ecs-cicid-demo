@@ -95,7 +95,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definitio-family: ${{ env.ECS_TASK_DEFINITION }}
+          task-definition-family: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.NODE_CONTAINER_NAME }}
           image: ${{ vars.DOCKER_USERNAME }}/${{ env.NODE_IMAGE_NAME }}
 
