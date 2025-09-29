@@ -1,6 +1,6 @@
 name: Build image and deploy to ECS
 on:
-  push: 
+  push:
     branches:
       - main
   workflow_dispatch:
@@ -8,6 +8,7 @@ on:
 env:
   NODE_IMAGE_NAME: ecs-demo-node
   REACT_IMAGE_NAME: ecs-demo-client
+  AWS_REGION: eu-central-1
 
 jobs:
   build-image-node:
@@ -39,7 +40,6 @@ jobs:
           file: ./API-jokes/Dockerfile.prod
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-
 
   build-image-react:
     runs-on: ubuntu-latest
@@ -73,4 +73,15 @@ jobs:
             VITE_API_BASE_URL=http://ECSLoadbalancer-617433739.eu-central-1.elb.amazonaws.com
           tags: ${{ steps.meta.outputs.tags }}
 
-   
+  deploy-to-ecs:
+    runs-on: ubuntu-latest
+    needs:
+      - build-image-node
+      - build-image-react
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v5.0.0
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{env.AWS_REGION}}
