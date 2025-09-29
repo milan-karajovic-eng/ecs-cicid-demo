@@ -25,7 +25,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: 0409karajovic/ecs-demo-node
+          images: ${{ vars.DOCKER_USERNAME }}/${{ env.NODE_IMAGE_NAME }}
           tags: |
             latest 
             v1.0.${{github.run_number}}
