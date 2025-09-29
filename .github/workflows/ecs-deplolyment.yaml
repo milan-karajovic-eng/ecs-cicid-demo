@@ -14,20 +14,22 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Added details to image
-        id: meta
-        uses: docker/meta-action@v5
+
+      - name: Log in to Docker Hub
+        uses: docker/meta-action@v3
         with:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Extract metadata (tags, labels) for Docker
+
+      - name: Added details to image
         id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        uses: docker/metadata-action@v5
         with:
           images: ${{ vars.DOCKER_USERNAME }}/${{env.NODE_IMAGE_NAME}}
           tags: |
             latest 
             v1.0.${{github.run_number}}
+
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v6
